@@ -1,0 +1,39 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#gameContainer {
+    background-color: black;
+    height: 512px;
+    width: 512px;
+    position: relative;
+    margin: 16px;
+}
+
+#maxi {
+    height: 96px;
+    background-color: white;
+    position: absolute;
+    right: 8px;
+    padding: 0 4px;
+}
+
+#focus {
+    height: 96px;
+    position: absolute;
+    left: 8px;
+}
+
+#ball {
+    height: 48px;
+    width: 48px;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    padding: 4px;
+}
+
+.info {
+    margin: 16px;
+}
