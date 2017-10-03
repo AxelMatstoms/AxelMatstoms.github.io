@@ -197,16 +197,16 @@ function inRange(value, lower, upper) {
 
 spButton.addEventListener("click", (ev) => {
     gamemode = "sp";
-    reset();
     resetScore();
+    reset();
     lastFrame = performance.now();
     window.requestAnimationFrame(spGameLoop);
 });
 
 mpButton.addEventListener("click", (ev) => {
     gamemode = "mp";
-    reset();
     resetScore();
+    reset();
     lastFrame = performance.now();
     window.requestAnimationFrame(mpGameLoop);
 });
