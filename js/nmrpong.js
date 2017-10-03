@@ -37,6 +37,9 @@ let lastFrame = performance.now();
 
 const spButton = document.getElementById("single");
 const mpButton = document.getElementById("multi");
+let gamemode = "";
+
+const scoreDOM = document.getElementById("score");
 
 function spGameLoop(timestamp) {
     const dt = (timestamp - lastFrame) / 1000;
@@ -53,7 +56,9 @@ function spGameLoop(timestamp) {
     updateDOM();
 
     lastFrame = timestamp;
-    window.requestAnimationFrame(spGameLoop);
+    if (gamemode != "mp") {
+	window.requestAnimationFrame(spGameLoop);
+    }
 }
 
 function mpGameLoop(timestamp) {
@@ -74,12 +79,13 @@ function mpGameLoop(timestamp) {
 	maxi.vy = 0;
     }
 
-    updateAI();
     updateObjs(dt);
     updateDOM();
 
     lastFrame = timestamp;
-    window.requestAnimationFrame(mpGameLoop);
+    if (gamemode != "sp") {
+	window.requestAnimationFrame(mpGameLoop);
+    }
 }
 
 function updateObjs(dt) {
@@ -103,9 +109,11 @@ function updateObjs(dt) {
     
     //Update ball
     if (ball.y + ballDOM.clientHeight / 2 > 512) {
+	ball.y = 512 - ballDOM.clientHeight / 2;
 	ball.vy = -ball.vy;
     }
     if (ball.y - ballDOM.clientHeight / 2 < 0) {
+	ball.y = ballDOM.clientHeight / 2;
 	ball.vy = -ball.vy;
     }
 
@@ -173,9 +181,13 @@ function reset() {
     ball.vy = Math.sin(angle) * ballSpeed;
     focus.y = height / 2;
     focus.vy = 0;
-    focus.score = 0;
     maxi.y = height / 2;
     maxi.vy = 0;
+    scoreDOM.innerHTML = `${focus.score}:${maxi.score}`;
+}
+
+function resetScore() {
+    focus.score = 0;
     maxi.score = 0;
 }
 
@@ -184,24 +196,26 @@ function inRange(value, lower, upper) {
 }
 
 spButton.addEventListener("click", (ev) => {
+    gamemode = "sp";
     reset();
+    resetScore();
     lastFrame = performance.now();
     window.requestAnimationFrame(spGameLoop);
 });
 
 mpButton.addEventListener("click", (ev) => {
+    gamemode = "mp";
     reset();
+    resetScore();
     lastFrame = performance.now();
     window.requestAnimationFrame(mpGameLoop);
 });
 
 window.addEventListener("keydown", (ev) => {
-    //console.log(ev.key);
     keys.add(ev.key);
 });
 
 window.addEventListener("keyup", (ev) => {
-    //console.log("up", ev.key);
     keys.delete(ev.key);
 });
 
