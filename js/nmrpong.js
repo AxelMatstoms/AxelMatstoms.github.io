@@ -41,6 +41,10 @@ let gamemode = "";
 
 const scoreDOM = document.getElementById("score");
 
+const helpButton = document.getElementById("help");
+const infoDOM = document.getElementById("info");
+let infoShown = true;
+
 function spGameLoop(timestamp) {
     const dt = (timestamp - lastFrame) / 1000;
     if (keys.has("ArrowUp")) {
@@ -63,17 +67,17 @@ function spGameLoop(timestamp) {
 
 function mpGameLoop(timestamp) {
     const dt = (timestamp - lastFrame) / 1000;
-    if (keys.has("ArrowUp")) {
+    if (keys.has("w")) {
 	focus.vy = -playerSpeed;
-    } else if (keys.has("ArrowDown")) {
+    } else if (keys.has("s")) {
 	focus.vy = playerSpeed;
     } else {
 	focus.vy = 0;
     }
 
-    if (keys.has("w")) {
+    if (keys.has("ArrowUp")) {
 	maxi.vy = -playerSpeed;
-    } else if (keys.has("s")) {
+    } else if (keys.has("ArrowDown")) {
 	maxi.vy = playerSpeed;
     } else {
 	maxi.vy = 0;
@@ -219,3 +223,8 @@ window.addEventListener("keyup", (ev) => {
     keys.delete(ev.key);
 });
 
+helpButton.addEventListener("click", (ev) => {
+    infoShown = !infoShown;
+    infoDOM.style.display = infoShown ? "block" : "none";
+    helpButton.innerHTML = infoShown ? "Göm" : "Hjälp!";
+});
